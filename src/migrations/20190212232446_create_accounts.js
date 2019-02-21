@@ -1,4 +1,3 @@
-
 exports.up = knex => knex.schema.createTable('accounts', (t) => {
   t.increments('id').primary();
   t.string('name').notNull();
