@@ -1,0 +1,50 @@
+{
+  "name": "api-rest-tdd",
+  "version": "1.0.0",
+  "description": "API criada em NodeJs com TDD",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:watch:v": "jest --watch --verbose=true",
+    "lint": "eslint src/** test/**",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murilosandiego/api-rest-tdd.git"
+  },
+  "keywords": [
+    "api",
+    "tdd",
+    "rest",
+    "node",
+    "javascript"
+  ],
+  "author": "Murilo Sandiego <contato@murilosandiego.com.br> (http://murilosandiego.com.br/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/murilosandiego/api-rest-tdd/issues"
+  },
+  "homepage": "https://github.com/murilosandiego/api-rest-tdd#readme",
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "jest": "23.6.0",
+    "supertest": "3.3.0"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "1.18.3",
+    "consign": "0.1.6",
+    "express": "4.16.4",
+    "jwt-simple": "0.5.5",
+    "knex": "0.15.2",
+    "knex-logger": "^0.1.0",
+    "passport": "0.4.0",
+    "passport-jwt": "4.0.0",
+    "pg": "7.7.1"
+  }
+}
