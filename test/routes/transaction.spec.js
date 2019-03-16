@@ -223,3 +223,23 @@ test('should not remove a transactions that belong to other users', () => app
       expect(res.status).toBe(403);
       expect(res.body.error).toBe('Este recurso não pertence ao usuário');
     })));
+
+test('should not remove account with transaction ', () => app
+  .db('transactions')
+  .insert(
+    {
+      description: 'New Transaction',
+      date: new Date(),
+      ammount: 100,
+      type: 'I',
+      acc_id: accUser.id,
+    },
+    ['id'],
+  )
+  .then(() => request(app)
+    .delete(`/v1/accounts/${accUser.id}`)
+    .set('authorization', `bearer ${user.token}`)
+    .then((res) => {
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Essa conta possui transações associadas');
+    })));
