@@ -115,6 +115,31 @@ test('should return negative when it is outgoing transaction', () => request(app
     expect(res.body.ammount).toBe('-100.00');
   }));
 
+describe('Insert invalid transaction', () => {
+  const testTemplate = (newData, errorMessage) => request(app)
+    .post(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .send({
+      description: 'New T1',
+      date: new Date(),
+      ammount: 100,
+      type: 'I',
+      acc_id: accUser.id,
+      ...newData,
+    })
+    .then((res) => {
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe(errorMessage);
+    });
+
+  test('Should not insert without description', () => testTemplate({ description: null }, 'Descrição é um atributo obrigatório'));
+  test('Should not insert without ammount', () => testTemplate({ ammount: null }, 'Valor é um atributo obrigatório'));
+  test('Should not insert without date', () => testTemplate({ date: null }, 'Data é um atributo obrigatório'));
+  test('Should not insert without account', () => testTemplate({ acc_id: null }, 'Conta é um atributo obrigatório'));
+  test('Should not insert without type', () => testTemplate({ type: null }, 'Tipo é um atributo obrigatório'));
+  test('Should not insert without invalid type ', () => testTemplate({ type: 'A' }, 'Tipo inválido'));
+});
+
 test('should return a transaction by ID', () => app
   .db('transactions')
   .insert(
