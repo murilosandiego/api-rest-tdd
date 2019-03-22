@@ -6,10 +6,13 @@ module.exports = {
       host: 'localhost',
       user: 'postgres',
       password: 'root',
-      database: 'api_rest_tdd'
+      database: 'api_rest_tdd',
     },
     migrations: {
-      directory: 'src/migrations'
-    }
-  }
-}
+      directory: 'src/migrations',
+    },
+    seeds: {
+      directory: 'src/seeds',
+    },
+  },
+};
