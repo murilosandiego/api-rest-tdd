@@ -1,7 +1,18 @@
 const express = require('express');
+const AcessDeniedError = require('../erros/AccessDeniedError');
 
 module.exports = (app) => {
   const router = express.Router();
+
+  router.param('id', (req, res, next) => {
+    app.services.transfer
+      .findOne({ id: req.params.id })
+      .then((result) => {
+        if (result.user_id !== req.user.id) throw new AcessDeniedError();
+        next();
+      })
+      .catch(err => next(err));
+  });
 
   const validate = (req, res, next) => {
     app.services.transfer
@@ -36,6 +47,13 @@ module.exports = (app) => {
     app.services.transfer
       .update(req.params.id, { ...req.body, user_id: req.user.id })
       .then(result => res.status(200).json(result[0]))
+      .catch(err => next(err));
+  });
+
+  router.delete('/:id', (req, res, next) => {
+    app.services.transfer
+      .remove({ id: req.params.id, user_id: req.user.id })
+      .then(() => res.status(204).send())
       .catch(err => next(err));
   });
 

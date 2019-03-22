@@ -214,3 +214,33 @@ describe('Updating a invalid transfer', () => {
   ));
   it('should not insert if accounts belong to the other user', () => testTemplate({ acc_ori_id: 10002 }, 'Conta não encontrada'));
 });
+
+describe('Removing a transfer', () => {
+  it('should return 204 status', () => request(app)
+    .delete(`${MAIN_ROUTE}/10000`)
+    .set('Authorization', `Bearer ${TOKEN}`)
+    .then((res) => {
+      expect(res.status).toBe(204);
+    }));
+  it('should remove transfer of the database', () => app
+    .db('transfers')
+    .where({ id: 10000 })
+    .then((result) => {
+      expect(result).toHaveLength(0);
+    }));
+
+  it('should remove associated transactions', () => app
+    .db('transactions')
+    .where({ transfer_id: 10000 })
+    .then((result) => {
+      expect(result).toHaveLength(0);
+    }));
+
+  it('should not return transfers other users', () => request(app)
+    .get(`${MAIN_ROUTE}/${10001}`)
+    .set('authorization', `bearer ${TOKEN}`)
+    .then(async (res) => {
+      expect(res.status).toBe(403);
+      expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+    }));
+});

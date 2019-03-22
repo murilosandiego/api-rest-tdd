@@ -56,7 +56,22 @@ module.exports = (app) => {
       .db('transactions')
       .where({ transfer_id: id })
       .del();
+
     await app.db('transactions').insert(transactions);
+
+    return result;
+  };
+
+  const remove = async (filter = {}) => {
+    await app
+      .db('transactions')
+      .where({ transfer_id: filter.id })
+      .del();
+
+    const result = await app
+      .db('transfers')
+      .where(filter)
+      .del();
 
     return result;
   };
@@ -94,5 +109,6 @@ module.exports = (app) => {
     findOne,
     update,
     validate,
+    remove,
   };
 };

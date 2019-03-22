@@ -21,8 +21,11 @@ app.get('/', (req, res) => {
 app.use((err, req, res, next) => {
   const { name, message, stack } = err;
   if (name === 'ValidationError') res.status(400).json({ error: message, stack });
-  if (name === 'AcessDeniedError') res.status(403).json({ error: message, stack });
-  else res.status(500).json({ name, message, stack });
+  else if (name === 'AcessDeniedError') res.status(403).json({ error: message, stack });
+  else {
+    console.log(err);
+    res.status(500).json({ name, message, stack });
+  }
   next(err);
 });
 
