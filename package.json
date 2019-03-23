@@ -9,7 +9,8 @@
     "test:watch": "jest --watch",
     "test:watch:v": "jest --watch --verbose=true",
     "lint": "eslint src/** test/**",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "coverage": "jest --coverage --runInBand --forceExit"
   },
   "repository": {
     "type": "git",

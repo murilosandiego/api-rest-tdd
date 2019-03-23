@@ -7,6 +7,11 @@ let user;
 let user2;
 
 beforeAll(async () => {
+  await app.db('transactions').del();
+  await app.db('transfers').del();
+  await app.db('accounts').del();
+  await app.db('users').del();
+
   const res = await app.services.user.save({
     name: 'User Account',
     mail: `${Date.now()}@mail.com`,
@@ -57,8 +62,8 @@ test('should not insert an account with duplicate name for the same user ', () =
     })));
 
 test('should list only accounts the user', async () => {
-  await app.db('transactions').del();
   await app.db('transfers').del();
+  await app.db('transactions').del();
   await app.db('accounts').del();
 
   return app

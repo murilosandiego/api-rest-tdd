@@ -68,6 +68,16 @@ test('should not insert user without e-mail', async () => {
   expect(result.body.error).toBe('Email é um atributo requerido');
 });
 
+test('should not insert user without password', async () => {
+  const result = await request(app)
+    .post(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .send({ name: 'João Pualo', mail: 'asdifj@sdfij.com' });
+
+  expect(result.status).toBe(400);
+  expect(result.body.error).toBe('Senha é um atributo requerido');
+});
+
 test('should not insert user if e-mail exist', () => request(app)
   .post(MAIN_ROUTE)
   .set('authorization', `bearer ${user.token}`)
