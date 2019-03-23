@@ -2,7 +2,7 @@ exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTable('transfers', (t) => {
     t.increments('id').primary();
     t.string('description').notNull();
-    t.date('date').notNull();
+    t.datetime('date').notNull();
     t.decimal('ammount', 15, 2).notNull();
     t.integer('acc_ori_id')
       .references('id')

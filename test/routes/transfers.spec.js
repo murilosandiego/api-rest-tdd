@@ -94,6 +94,11 @@ describe('Saving a valid transfer', () => {
     expect(income.transfer_id).toBe(transferId);
     expect(outcome.transfer_id).toBe(transferId);
   });
+
+  it('should be with confirmed status', () => {
+    expect(income.status).toBe(true);
+    expect(outcome.status).toBe(true);
+  });
 });
 
 describe('Saving a invalid transfer', () => {
